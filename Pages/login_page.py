@@ -17,30 +17,24 @@ class LoginPage(BasePage):
 
 
     def __init__(self, driver):
-        #super().__init__(driver)
+
         self.driver = driver
 
-        #super(LoginPage, self).__init__(driver)
 
-        #self.driver=driver
-
-        self._get_url("https://www.saucedemo.com/")
-        assert self.driver.current_url == "https://www.saucedemo.com/"
-
-    #get locator for inputting username, password, then login
-    def login_info(self, username, password):
+    #get login info
+    def enter_login_info(self, username, password):
         self._send_keys(self._username_input, username)
         self._send_keys(self._password_input, password)
         self._click(self._login_button)
 
-    #the page people will see, after successfully login
-    def page_after_login(self):
+    #evidence after logging in
+    def title_after_login(self):
 
         #return self._wait_for_display(self._after_login, 3)
         return self._is_displayed(self._after_login)
 
     #response after log in fail
-    def fail_message(self):
+    def failed_message(self):
         self._wait_for_display(self._fail_log_in_message, 3)
         #self.driver.implicitly_wait(3)
         return self._find(self._fail_log_in_message)
