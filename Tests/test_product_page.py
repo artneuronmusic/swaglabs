@@ -12,7 +12,7 @@ from Pages.product_page import ProductPage
 @pytest.mark.usefixtures("test_setup")
 class TestProductPage():
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_display_menu_items(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -22,7 +22,7 @@ class TestProductPage():
         assert items == ["All Items", "About", "Logout", "Reset App State"]
 
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_click_All_from_menu(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -31,7 +31,7 @@ class TestProductPage():
 
         assert driver.current_url == "https://www.saucedemo.com/inventory.html"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_click_About_from_menu(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -40,7 +40,7 @@ class TestProductPage():
 
         assert driver.current_url == "https://saucelabs.com/"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_click_Logout_from_menu(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -49,7 +49,7 @@ class TestProductPage():
 
         assert driver.current_url == "https://www.saucedemo.com/index.html"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_click_Reset_from_menu(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -59,7 +59,7 @@ class TestProductPage():
         assert driver.current_url == "https://www.saucedemo.com/inventory.html"
 
     #there is bug here!!!! CHECK IT
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_result_Reset_after_select_item(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -75,7 +75,7 @@ class TestProductPage():
 
 
     #after delete, the drop down in menu bar is gone
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_click_delete_button(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -85,7 +85,7 @@ class TestProductPage():
         assert section
 
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_display_cart_sign(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -95,7 +95,7 @@ class TestProductPage():
         assert display_cart.is_display() == True
 
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_qty_cart_before_add(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -105,7 +105,7 @@ class TestProductPage():
         assert qty_cart == None
 
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_qty_cart_after_add_items(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -122,7 +122,7 @@ class TestProductPage():
         assert click_item4 == "REMOVE"
 
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_qty_cart_after_add_or_remove(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -146,7 +146,7 @@ class TestProductPage():
         assert qty_cart == "2"
 
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_click_cart_sign(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -156,7 +156,7 @@ class TestProductPage():
 
         assert driver.current_url == "https://www.saucedemo.com/cart.html"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_default_product_order(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -165,7 +165,7 @@ class TestProductPage():
 
         assert order == "Name (A to Z)"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_select_index2_product_order(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -175,7 +175,7 @@ class TestProductPage():
 
         assert list_display == "Name (Z to A)"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_select_index3_product_order(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -185,7 +185,7 @@ class TestProductPage():
 
         assert list_display == "Price (low to high)"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_select_text2_product_order(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -195,7 +195,7 @@ class TestProductPage():
 
         assert list_display == "Name (A to Z)"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_select_text4_product_order(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -205,7 +205,7 @@ class TestProductPage():
 
         assert list_display == "Price (high to low)"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_product_label_desc_price_and_index_order(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -220,7 +220,7 @@ class TestProductPage():
         assert desc_list == var_info.desc_low_to_high
         assert price_list == var_info.price_low_to_high
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_product_label_desc_price_and_text_order(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -236,7 +236,7 @@ class TestProductPage():
         assert price_list == var_info.price_high_to_low
 
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_product_imgs_availability(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -277,7 +277,7 @@ class TestProductPage():
 
 
 
-    def test_product_label_clickable_default_order(self):
+    def test_product_index_clickable_default_order(self):
         driver = self.driver
         driver.get(var_info.url_product)
         product = ProductPage(driver)
@@ -290,20 +290,46 @@ class TestProductPage():
 
 
 
-    def test_product_img_clickable_assigned_order(self):
+    def test_product_lab_clickable_assigned_order(self):
         driver = self.driver
         driver.get(var_info.url_product)
         product = ProductPage(driver)
         product.pick_display_order("Price (high to low)")
         #assert order == "Price (low to high)"
-        product.click_img(5)
+        product.click_product_label(5)
         id = var_info.id_high_to_low[5-1]
 
 
         print(driver.current_url)
         assert driver.current_url == "https://www.saucedemo.com/inventory-item.html?id=" + id
 
+"""
+    def test_product_index_clickable_default_order(self):
+        driver = self.driver
+        driver.get(var_info.url_product)
+        product = ProductPage(driver)
+        order = product.name_display_order()
+        product.click_product_label(2)
+        id = var_info.id_a_to_z[2 - 1]
 
+        print(driver.current_url)
+        assert driver.current_url == "https://www.saucedemo.com/inventory-item.html?id=" + id
+
+
+
+    def test_product_lab_clickable_assigned_order(self):
+        driver = self.driver
+        driver.get(var_info.url_product)
+        product = ProductPage(driver)
+        product.pick_display_order("Price (high to low)")
+        #assert order == "Price (low to high)"
+        product.click_product_label("Sauce Labs Fleece Jacket")
+        id = var_info.id_high_to_low[5-1]
+
+
+        print(driver.current_url)
+        assert driver.current_url == "https://www.saucedemo.com/inventory-item.html?id=" + id
+"""
 
 """
     def test_img_display(self):

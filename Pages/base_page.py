@@ -37,11 +37,12 @@ class BasePage:
     def _is_displayed(self, locator):
         try:
             self._find(locator).is_displayed()
+            return True
 
         except NoSuchElementException:
             return False
 
-        return True
+
 
 
     def _send_keys(self, locator, input_info):
@@ -61,6 +62,16 @@ class BasePage:
 
         return True
 
+
+    def _wait_for_not_display(self, locator, timeout):
+        try:
+            wait = WebDriverWait(self.driver, timeout)
+            wait.until(expected_conditions.invisibility_of_element_located((locator['by'], locator['value'])))
+
+        except TimeoutException:
+            return False
+
+        return True
     def _wait_for_click(self, locator, timeout):
         try:
             wait = WebDriverWait(self.driver, timeout)
@@ -70,6 +81,6 @@ class BasePage:
         except TimeoutException:
             return False
 
-        return True
+        return
 
 

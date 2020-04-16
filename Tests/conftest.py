@@ -13,6 +13,8 @@ def pytest_addoption(parser):
                      help="the name is the browser u want to run with")
 
 
+#@pytest.fixture(scope='function')
+#@pytest.fixture(scope='session')
 @pytest.fixture(scope="class")
 #@pytest.fixture(scope="session") #u use it when without class, and it will open browser once with all test
 def test_setup(request):

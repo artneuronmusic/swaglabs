@@ -4,6 +4,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 
 
+
 class LoginPage(BasePage):
     _username_input = {"by": By.ID, "value": "user-name"}
     _password_input = {"by": By.ID, "value": "password"}
