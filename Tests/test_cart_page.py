@@ -9,169 +9,184 @@ from Info import var_info
 from Pages.login_page import LoginPage
 from Pages.product_page import ProductPage
 from Pages.cart_page import CartPage
+from Pages.product_individual_page import DetailsPage
 from Pages.outside_element import OutSideElement
 
-@pytest.mark.usefixtures("test_setup")
-class TestCartPage():
+@pytest.mark.usefixtures("driver")
+class TestCartPageWithoutProducts():
 
     @pytest.mark.skip
-    # accepted:username=standard_user, pw=secret_sauce
-    def test_displayed_elements_in_page(self):
+    #should not
+    def test_cart_with_no_product_product_page(self):
         driver = self.driver
-        driver.get(var_info.url_login)
-        loginpage = LoginPage(driver)
-        loginpage.enter_login_info(var_info.username_s, var_info.password_s)
+        driver.get(var_info.url_product)
+        product = ProductPage(driver)
+        product.cart_sign().click()
+        cart = CartPage(driver)
+        title = cart.cart_title()
+        qty_label = cart.cart_qty_label()
+        desc_label = cart.cart_desc_label()
+        items_display = cart.total_product_in_cart()
 
-        inventory = ProductPage(driver)
-        inventory.cart_sign().click()
 
-        cartpage = CartPage(driver)
-        title = cartpage.cart_title()
-        qty_label = cartpage.cart_qty_label()
-        cart_desc = cartpage.cart_desc()
-        shopping_button = cartpage.cart_continue_shopping()
-        checkout_button = cartpage.cart_checkout_button()
-
-        outside = OutSideElement(driver)
-        cart_sign = outside.cart_sign()
-        cart_qty = outside.cart_qty()
 
 
         assert title.text == "Your Cart"
-        assert qty_label.text == "QTY"
-        assert cart_desc.text == "DESCRIPTION"
-        assert cart_sign.is_displayed()
-        assert cart_qty == None
-        assert shopping_button.is_displayed()
-        assert checkout_button.is_displayed()
+        assert qty_label.is_displayed()
+        assert desc_label.is_displayed()
+        assert items_display == None
+
 
     @pytest.mark.skip
-    def test_selected_products_in_checkout(self):
+    # should not
+    def test_no_product_no_checkout_page(self):
         driver = self.driver
-        driver.get(var_info.url_login)
-        driver.refresh()
-        loginpage = LoginPage(driver)
-        loginpage.enter_login_info(var_info.username_s, var_info.password_s)
+        driver.get(var_info.url_product)
+        product = ProductPage(driver)
+        product.cart_sign().click()
+        cart = CartPage(driver)
+        checkout_button = cart.cart_checkout_button()
+        checkout_button.click()
 
-        inventory = ProductPage(driver)
-        inventory.click_add_to_cart(2)
-        inventory.label_add_to_cart("Sauce Labs Fleece Jacket")
-        inventory.cart_sign().click()
-
-
-        cartpage = CartPage(driver)
-        sum_items = cartpage.to_buy_total()
-        outside = OutSideElement(driver)
-        cart_qty = outside.cart_qty()
-        product_list = cartpage.cart_product_name()
-        qty_display = cartpage.cart_input_qty()
-        #price_display = cartpage.cart_product_price()
-
-
-        print(product_list)
-
-        assert sum_items == 2
-        assert cart_qty.text =="2"
-        assert qty_display.text == "1"
+        assert driver.current_url != "https://www.saucedemo.com/checkout-step-one.html"
 
     @pytest.mark.skip
-    def test_remove_products_in_checkout(self):
+    # should not
+    def test_no_product_continue_shopping(self):
         driver = self.driver
-        driver.get(var_info.url_login)
-        driver.refresh()
-        loginpage = LoginPage(driver)
-        loginpage.enter_login_info(var_info.username_s, var_info.password_s)
+        driver.get(var_info.url_product)
+        product = ProductPage(driver)
+        product.cart_sign().click()
+        cart = CartPage(driver)
+        shopping_button = cart.cart_continue_shopping()
+        shopping_button.click()
 
-        inventory = ProductPage(driver)
-        inventory.click_add_to_cart(2)
-        inventory.label_add_to_cart("Sauce Labs Fleece Jacket")
-        inventory.cart_sign().click()
-
-
-        cartpage = CartPage(driver)
-
-        qty_display = cartpage.cart_input_qty()
-        remove = cartpage.cart_product_remove(2)
-
-        outside = OutSideElement(driver)
-        cart_qty = outside.cart_qty()
-        sum_items = cartpage.to_buy_total()
-
-        assert sum_items == 1
-        assert cart_qty.text =="1"
-        assert qty_display.text == "1"
-
-    @pytest.mark.skip
-    def test_continue_shopping_button(self):
-
-        driver = self.driver
-        driver.get(var_info.url_login)
-        driver.refresh()
-        loginpage = LoginPage(driver)
-        loginpage.enter_login_info(var_info.username_s, var_info.password_s)
-
-        inventory = ProductPage(driver)
-        inventory.click_add_to_cart(2)
-        inventory.label_add_to_cart("Sauce Labs Fleece Jacket")
-        inventory.cart_sign().click()
-
-        cartpage = CartPage(driver)
-
-        qty_display = cartpage.cart_input_qty()
-        remove = cartpage.cart_product_remove(2)
-
-        outside = OutSideElement(driver)
-
-        sum_items = cartpage.to_buy_total()
-
-        continue_button = cartpage.cart_continue_shopping()
-        continue_button.click()
-        cart_qty = outside.cart_qty()
-
-        assert cart_qty.text == "1"
         assert driver.current_url == "https://www.saucedemo.com/inventory.html"
 
-    def test_checkout_button(self):
+
+@pytest.mark.usefixtures("driver")
+class TestDisplay():
+
+    #@pytest.mark.skip
+    def test_displayed_products_in_page(self):
         driver = self.driver
-        driver.get(var_info.url_login)
-        driver.refresh()
-        loginpage = LoginPage(driver)
-        loginpage.enter_login_info(var_info.username_s, var_info.password_s)
+        driver.get(var_info.url_product)
+        product = ProductPage(driver)
+        product.click_add_to_cart(2)
+        product.click_add_to_cart(6)
 
-        inventory = ProductPage(driver)
-        inventory.click_add_to_cart(2)
-        inventory.label_add_to_cart("Sauce Labs Fleece Jacket")
-        inventory.cart_sign().click()
+        sign = product.cart_sign()
+        sign.click()
+        cart = CartPage(driver)
+        items_display = cart.total_product_in_cart()
+        qty = cart.cart_qty()
 
-        cartpage = CartPage(driver)
+        assert items_display == 2
+        assert qty.text == "2"
 
-        qty_display = cartpage.cart_input_qty()
-        outside = OutSideElement(driver)
-        checkout_button = cartpage.cart_checkout_button()
+
+
+    #@pytest.mark.skip
+    #checkout successfully
+    def test_displayed_products_checkout_button(self):
+        driver = self.driver
+        driver.get(var_info.url_product)
+        product = ProductPage(driver)
+        product.click_add_to_cart(2)
+        product.click_add_to_cart(6)
+
+        sign = product.cart_sign()
+        sign.click()
+        cart = CartPage(driver)
+        checkout_button = cart.cart_checkout_button()
         checkout_button.click()
-        cart_qty = outside.cart_qty()
 
-        assert cart_qty.text == "2"
         assert driver.current_url == "https://www.saucedemo.com/checkout-step-one.html"
 
-
-"""
-    def test_selected_products(self):
+    #@pytest.mark.skip
+    def test_remove_checkout(self):
         driver = self.driver
-        driver.get(var_info.url_login)
-        driver.refresh()
-        loginpage = LoginPage(driver)
-        loginpage.enter_login_info(var_info.username_s, var_info.password_s)
+        driver.get(var_info.url_product)
+        product = ProductPage(driver)
+        product.click_add_to_cart(2)
+        product.click_add_to_cart(6)
 
-        inventory = ProductPage(driver)
-        time.sleep(5)
-        
-"""
+        sign = product.cart_sign()
+        sign.click()
+        cart = CartPage(driver)
+        cart.cart_product_remove(1)
+        items_display = cart.total_product_in_cart()
+        qty = cart.cart_qty()
+
+        assert items_display == 1
+        assert qty.text == "1"
+
+
+
+    #@pytest.mark.skip
+    #redierect to prodcut page
+    def test_continue_shopping_button(self):
+        driver = self.driver
+        driver.get(var_info.url_product)
+        product = ProductPage(driver)
+        product.click_add_to_cart(2)
+        product.click_add_to_cart(6)
+        sign = product.cart_sign()
+        sign.click()
+        cart = CartPage(driver)
+        shopping_button = cart.cart_continue_shopping()
+        shopping_button.click()
+
+        assert driver.current_url == "https://www.saucedemo.com/inventory.html"
+        pro2 = product.product_add_to_cart(2)
+        pro6 = product.product_add_to_cart(6)
+
+        assert pro2.text == "REMOVE"
+        assert pro6.text == "REMOVE"
 
 
 
 
+    #@pytest.mark.skip
+    #displays should be all gone, but....u will get ERROR
+    def test_reset_button(self):
+        driver = self.driver
+        driver.get(var_info.url_product)
+        product = ProductPage(driver)
+        product.click_add_to_cart(2)
+        product.click_add_to_cart(6)
+        sign = product.cart_sign()
+        sign.click()
+        product.pick_item_from_menu("Reset App State")
+        cart = CartPage(driver)
+        qty = cart.cart_qty()
+        items_display = cart.total_product_in_cart()
 
+        assert qty == None
+        assert items_display == None
+
+
+
+@pytest.mark.usefixtures("driver")
+class TestIndividualPageToCart():
+
+    #@pytest.mark.skip
+    #it will redirect back to product page
+    def test_individual_page_to_cart(self):
+        driver = self.driver
+        driver.get(var_info.url_product)
+        product = ProductPage(driver)
+        product.click_product_label(4)
+        individual = DetailsPage(driver)
+        individual.check_single_add_to_cart().click()
+        individual.cart_sign().click()
+        cart = CartPage(driver)
+        qty = cart.cart_qty()
+        items_display = cart.total_product_in_cart()
+
+        assert items_display == 1
+        assert qty.text == "1"
+        assert driver.current_url == "https://www.saucedemo.com/cart.html"
 
 
 

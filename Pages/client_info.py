@@ -9,14 +9,40 @@ import time
 
 
 class ClientInfoPage(BasePage):
-
+    _info_title = {"by": By.XPATH, "value": "//div[@class='subheader']"}
     _first_name =  {"by": By.XPATH, "value": "//input[@id='first-name']"}
     _last_name = {"by": By.XPATH, "value": "//input[@id='last-name']"}
     _zipcode = {"by": By.XPATH, "value": "//input[@id='postal-code']"}
     _continue = {"by": By.XPATH, "value": "//input[@class='btn_primary cart_button']"}
     #will go back to cart html
-    _cancel = {"by": By.CLASS_NAME, "value": "cart_cancel_link btn_secondary"}
+    _cancel = {"by": By.CLASS_NAME, "value": "cart_cancel_link"}
     _warning = {"by": By.XPATH, "value": "//h3[1]"}
+    _info_cart_sign = {"by": By.XPATH, "value": "//*[name()='path' and contains( @ fill, 'currentCol')]"}
+    _info_cart_qty = {"by": By.XPATH, "value": "//span[@class='fa-layers-counter shopping_cart_badge']"}
+
+    def info_cart_sign(self):
+
+        return self._find(self._info_cart_sign)
+
+        # the cart_amount
+
+    def info_cart_qty(self):
+        if self._is_displayed(self._info_cart_qty):
+            qty = self._find(self._info_cart_qty)
+            return qty
+
+        else:
+            return None
+
+
+    def info_title(self):
+        try:
+            self._is_displayed(self._info_title)
+            return self._find(self._info_title)
+
+
+        except AssertionError:
+            return False
 
     def input_first_name(self, first_name):
         try:

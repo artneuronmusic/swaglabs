@@ -6,6 +6,7 @@ url_login_out = "https://www.saucedemo.com/index.html"
 url_product = url_login + "inventory.html"
 url_cart = url_login + "cart.html"
 url_about = "https://saucelabs.com/"
+url_checkout_step_one = "https://www.saucedemo.com/checkout-step-one.html"
 
 #usernames and passwords
 username_s= 'standard_user'

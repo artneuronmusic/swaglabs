@@ -12,14 +12,16 @@ class CartPage(BasePage):
 
 
     #cart.html
+    _cart_sign = {"by": By.XPATH, "value": "//*[name()='path' and contains( @ fill, 'currentCol')]"}
+    _cart_qty = {"by": By.XPATH, "value": "//span[@class='fa-layers-counter shopping_cart_badge']"}
     _cart_title = {"by": By.XPATH, "value": "//div[@class='subheader']"}
     _cart_qty_label = {"by": By.XPATH, "value": "//div[@class='cart_quantity_label']"}
-    _cart_desc = {"by": By.XPATH, "value": "//div[@class='cart_desc_label']"}
+    _cart_desc_label = {"by": By.XPATH, "value": "//div[@class='cart_desc_label']"}
     _cart_input_qty = {"by": By.XPATH, "value": "//div[@class='cart_quantity']"}
     _cart_product_name = {"by": By.CLASS_NAME, "value": "inventory_item_name"}
     _cart_product_description = {"by": By.CLASS_NAME, "value": "inventory_item_desc"}
     _cart_product_price = {"by": By.CLASS_NAME, "value": "inventory_item_price"}
-    _cart_product_add_to_cart = {"by": By.XPATH, "value": "//button[@class='btn_secondary cart_button']"}
+    _cart_product_remove = {"by": By.XPATH, "value": "//button[@class='btn_secondary cart_button']"}
     # _cart_page_amount = {"by": By.CLASS_NAME, "value": "shopping_cart_badge"}
     _items_total = {"by": By.CLASS_NAME, "value": "cart_item"}
 
@@ -30,28 +32,47 @@ class CartPage(BasePage):
     #_cart_qty = {"by": By.XPATH, "value": "//span[@class='fa-layers-counter shopping_cart_badge']"}
 
 
-    def cart_title(self):
-        self._is_displayed(self._cart_title)
 
-        return self._find(self._cart_title)
+    def cart_title(self):
+        try:
+            self._is_displayed(self._cart_title)
+            return self._find(self._cart_title)
+
+
+        except AssertionError:
+            return False
 
 
     def cart_qty_label(self):
-        self._is_displayed(self._cart_qty_label)
+        try:
+            self._is_displayed(self._cart_qty_label)
 
-        return self._find(self._cart_qty_label)
+            return self._find(self._cart_qty_label)
+
+        except AssertionError:
+            return False
 
 
-    def cart_desc(self):
-        self._is_displayed(self._cart_desc)
+    def cart_desc_label(self):
 
-        return self._find(self._cart_desc)
+
+        try:
+            self._is_displayed(self._cart_desc_label)
+
+            return self._find(self._cart_desc_label)
+
+        except AssertionError:
+            return False
 
 
     def cart_input_qty(self):
-        self._is_displayed(self._cart_input_qty)
+        try:
+            self._is_displayed(self._cart_input_qty)
 
-        return self._find(self._cart_input_qty)
+            return self._find(self._cart_input_qty)
+
+        except AssertionError:
+            return False
 
 
     def cart_product_name(self):
@@ -76,19 +97,8 @@ class CartPage(BasePage):
         return self._find(self._cart_product_description)
 
 
-    #def cart_product_price(self, input_info):
-     #   product_names = self._find_elements(self._cart_product_name)
-      #  product_prices = self._find_elements(self._cart_product_price())
-       # if isinstance(input, int):
-
-        #for i in
-        #self._is_displayed(self._cart_product_price)
-
-        #return self._find(self._cart_product_price)
-
-
     def cart_product_remove(self, index):
-        item_remove = self._find_elements(self._cart_product_add_to_cart)
+        item_remove = self._find_elements(self._cart_product_remove)
         new_index = int(index) - 1
 
         for i in range(len(item_remove)):
@@ -100,39 +110,45 @@ class CartPage(BasePage):
                 pass
 
     def cart_continue_shopping(self):
-        self._is_displayed(self._continue_shopping)
+        try:
+            self._is_displayed(self._continue_shopping)
 
-        return self._find(self._continue_shopping)
+            return self._find(self._continue_shopping)
+
+        except AssertionError:
+            raise("The button does not exist")
 
 
     def cart_checkout_button(self):
-        self._is_displayed(self._checkout_button)
+        try:
 
-        return self._find(self._checkout_button)
+            self._is_displayed(self._checkout_button)
 
-    def to_buy_total(self):
+            return self._find(self._checkout_button)
+
+        except AssertionError:
+            return None
+
+    def total_product_in_cart(self):
         all_items = self._find_elements(self._items_total)
-        return len(all_items)
-
-
-
-"""
-    #the cart sign
-    def cart_sign(self):
-        sign = self._find(self._cart_sign)
-
-        return sign
-
-
-    #the cart_amount
-    def cart_qty(self):
-        if self._is_displayed(self._cart_qty):
-
-            return self._find(self._cart_qty)
+        if all_items:
+            return len(all_items)
 
         else:
             return None
 
-"""
+    def cart_sign(self):
+
+        return self._find(self._cart_sign)
+
+        # the cart_amount
+
+    def cart_qty(self):
+        if self._is_displayed(self._cart_qty):
+            qty = self._find(self._cart_qty)
+            return qty
+
+        else:
+            return None
 
 

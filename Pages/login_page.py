@@ -6,6 +6,8 @@ import time
 
 
 class LoginPage(BasePage):
+
+    _website_logo = {"by": By. XPATH, "value": "//div[@class='login_logo']"}
     _username_input = {"by": By.ID, "value": "user-name"}
     _password_input = {"by": By.ID, "value": "password"}
     _login_button = {"by": By.XPATH, "value": "//input[@class='btn_action']"}
@@ -16,11 +18,16 @@ class LoginPage(BasePage):
     _drop_down = {"by": By.XPATH, "value": "//button[contains(text(), 'Open Menu')]"}
     _all_items = {"by": By.XPATH, "value": "//nav[@class='bm-item-list']//a[@class='bm-item menu-item']"}
 
+    #
+    # def __init__(self, driver):
+    #
+    #     self.driver = driver
+    # self._get_url("https://www.saucedemo.com/")
+    # assert self._is_displayed(self._website_logo)
 
-    def __init__(self, driver):
 
-        self.driver = driver
-
+    def login_logo(self):
+        self._wait_for_display(self._website_logo, 5)
 
     #get login info
     def enter_login_info(self, username, password):

@@ -14,10 +14,10 @@ class BasePage:
 
     def _get_url(self, url):
 
+
         if url.startswith == "https":
-
-
             self.driver.get(url)
+
         else:
             self.driver.get(config.baseurl + url)
 
@@ -30,6 +30,12 @@ class BasePage:
         return self.driver.find_elements(locator["by"], locator["value"])
     #def _find_plural(self, locator):
      #   return self.driver.find_elements(locator["by"], locator["value"])
+
+
+    def _clear(self, locator):
+        self.driver.find_element(locator["by"], locator["value"]).clear()
+
+
 
     def _click(self, locator):
         self._find(locator).click()
@@ -72,6 +78,8 @@ class BasePage:
             return False
 
         return True
+
+
     def _wait_for_click(self, locator, timeout):
         try:
             wait = WebDriverWait(self.driver, timeout)
@@ -81,6 +89,6 @@ class BasePage:
         except TimeoutException:
             return False
 
-        return
+        return True
 
 

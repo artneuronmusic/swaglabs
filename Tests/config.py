@@ -1,2 +1,4 @@
 baseurl = ""
 browser = ""
+# browserversion= ""
+# platform = ""
