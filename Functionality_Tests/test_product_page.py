@@ -254,7 +254,7 @@ class TestProductsAndCart():
 @pytest.mark.usefixtures("driver")
 class TestProductClickPage():
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_click_label_str(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -266,7 +266,7 @@ class TestProductClickPage():
         assert s_label.text == "Sauce Labs Backpack"
         #s_label.text
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_click_label_num(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -286,7 +286,7 @@ class TestProductClickPage():
         # s_label.text
 
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_products_img_exist(self):
 
         driver = self.driver
@@ -298,7 +298,7 @@ class TestProductClickPage():
         assert imgs == True
 
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_valid_product_img(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -323,7 +323,7 @@ class TestProductClickPage():
 @pytest.mark.usefixtures("driver")
 class TestIndividualDetail():
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_back_button_img(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -342,8 +342,10 @@ class TestIndividualDetail():
 
         assert driver.current_url == "https://www.saucedemo.com/inventory.html"
         assert total_in_cart.text == "1"
+
+
     #ADD TO CART works
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_add_to_cart(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -361,7 +363,7 @@ class TestIndividualDetail():
         assert total_in_cart.text == "1"
         assert cart_show.text == "REMOVE"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     #the remove label should become add to cart
     def test_reset_individual_page(self):
         driver = self.driver
@@ -380,7 +382,7 @@ class TestIndividualDetail():
         assert cart1.text == "ADD TO CART"
         assert cart_qty == None
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_resets_then_return(self):
         driver = self.driver
         driver.get(var_info.url_product)

@@ -20,7 +20,7 @@ from Pages.outside_element import OutSideElement
 @pytest.mark.usefixtures("driver")
 class TestClientInfoPage():
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     #since the default is no product, so the information should not go through if clicking continue
     def test_valid_info_continue(self):
         driver = self.driver
@@ -40,7 +40,7 @@ class TestClientInfoPage():
         assert cart_sign.is_displayed()
         assert cart_qty == None
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_valid_info_cancel(self):
         driver = self.driver
         driver.get(var_info.url_checkout_step_one)
@@ -53,7 +53,7 @@ class TestClientInfoPage():
 
         assert driver.current_url == "https://www.saucedemo.com/cart.html"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_blank_info_cancel(self):
         driver = self.driver
         driver.get(var_info.url_checkout_step_one)
@@ -67,7 +67,7 @@ class TestClientInfoPage():
 
         assert driver.current_url == "https://www.saucedemo.com/cart.html"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_blank_first_name_continue(self):
         driver = self.driver
         driver.get(var_info.url_checkout_step_one)
@@ -83,7 +83,7 @@ class TestClientInfoPage():
 
         assert warning.text == "Error: First Name is required"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_blank_last_name_continue(self):
         driver = self.driver
         driver.get(var_info.url_checkout_step_one)
@@ -99,7 +99,7 @@ class TestClientInfoPage():
 
         assert warning.text == "Error: Last Name is required"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_blank_zipcode_continue(self):
         driver = self.driver
         driver.get(var_info.url_checkout_step_one)
@@ -115,7 +115,7 @@ class TestClientInfoPage():
 
         assert warning.text == "Error: Postal Code is required"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_with_character_zipcode_continue(self):
         driver = self.driver
         driver.get(var_info.url_checkout_step_one)
@@ -133,7 +133,7 @@ class TestClientInfoPage():
         assert driver.current_url != "https://www.saucedemo.com/checkout-step-two.html"
 
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_with_character_all_info(self):
         driver = self.driver
         driver.get(var_info.url_checkout_step_one)
@@ -156,7 +156,7 @@ class TestClientInfoPage():
 @pytest.mark.usefixtures("driver")
 class TestBillPage():
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_info_display_default(self):
         driver = self.driver
         driver.get(var_info.url_checkout_step_one)
@@ -178,7 +178,7 @@ class TestBillPage():
         assert delivery.is_displayed() == False
         assert isinstance(amount, list) == False
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_finish_with_default(self):
         driver = self.driver
         driver.get(var_info.url_checkout_step_one)
@@ -195,7 +195,7 @@ class TestBillPage():
 
         assert result != "https://www.saucedemo.com/checkout-complete.html"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_cancel_with_default(self):
         driver = self.driver
         driver.get(var_info.url_checkout_step_one)
@@ -237,7 +237,7 @@ class TestBillPage():
         assert total == 2
 
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_reset_with_items_overview(self):
         driver = self.driver
         driver.get(var_info.url_product)
@@ -311,7 +311,7 @@ class TestLastProcess():
         assert qty == None
         assert sign.is_displayed()
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_cancel_purchase_before_complete(self):
         driver = self.driver
         driver.get(var_info.url_product)

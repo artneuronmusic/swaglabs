@@ -258,17 +258,17 @@ class ProductPage(BasePage):
 
 
 
-    def click_add_to_cart(self, num):
+    def click_add_to_cart(self, info):
 
         p_add_to_cart = self._find_elements(self._product_add_to_cart)
-        new_num = int(num) - 1
+        new_info = int(info) - 1
         try:
 
-            p_add_to_cart[new_num].click()
-            if p_add_to_cart[new_num].is_displayed():
-                return p_add_to_cart[new_num].text
+            p_add_to_cart[new_info].click()
+            if p_add_to_cart[new_info].is_displayed():
+                return p_add_to_cart[new_info].text
 
-        except (IndexError, ValueError):
+        except (IndexError, ValueError, TypeError):
 
             raise ("Sth wrong")
 
@@ -313,17 +313,33 @@ class ProductPage(BasePage):
 
 
     def click_products_img(self, num):
+        imgs = self._find_elements(self._product_img)
 
         try:
             self.products_img()
-            product_labels = self._find_elements(self._product_img)
-            num = int(num)-1
-            product_labels[num].click()
 
+            new = imgs[num].get_attribute("src")
+            print(new)
+            if new.endswith(".jpg"):
+                imgs[num].click()
 
-        except Exception:
-            raise("this img is invalid for clicking")
+            else:
+                raise Error("no imgs")
 
+        except AssertionError:
+            raise("No img")
+        # product_labels = self._find_elements(self._product_img)
+        #
+        # try:
+        #     if product_labels[num]:
+        #     product_labels = self._find_elements(self._product_img)
+        #     num = int(num)-1
+        #     product_labels[num].click()
+        #
+        #
+        # except Exception:
+        #     raise("this img is invalid for clicking")
+        #
 
 
 

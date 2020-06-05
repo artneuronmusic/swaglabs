@@ -15,7 +15,7 @@ from Pages.outside_element import OutSideElement
 @pytest.mark.usefixtures("driver")
 class TestCartPageWithoutProducts():
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     #should not
     def test_cart_with_no_product_product_page(self):
         driver = self.driver
@@ -37,7 +37,7 @@ class TestCartPageWithoutProducts():
         assert items_display == None
 
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     # should not
     def test_no_product_no_checkout_page(self):
         driver = self.driver
@@ -50,7 +50,7 @@ class TestCartPageWithoutProducts():
 
         assert driver.current_url != "https://www.saucedemo.com/checkout-step-one.html"
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     # should not
     def test_no_product_continue_shopping(self):
         driver = self.driver

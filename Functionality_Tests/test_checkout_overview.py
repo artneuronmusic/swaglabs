@@ -17,7 +17,7 @@ from Pages.checkout_overview import CheckoutOverview
 @pytest.mark.usefixtures("test_setup")
 class TestOverview():
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_info_displayed(self):
         driver = self.driver
         driver.get(var_info.url_login)
@@ -27,7 +27,7 @@ class TestOverview():
 
         inventory = ProductPage(driver)
         inventory.click_add_to_cart(2)
-        inventory.label_add_to_cart("Sauce Labs Fleece Jacket")
+        inventory.product_add_to_cart("Sauce Labs Fleece Jacket")
         inventory.cart_sign().click()
 
         cartpage = CartPage(driver)
@@ -63,7 +63,7 @@ class TestOverview():
         assert finish_button.is_displayed()
         assert cancel_button.is_displayed()
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_nothing_purchased_info_displayed(self):
 
         driver = self.driver
@@ -108,7 +108,7 @@ class TestOverview():
         assert finish_button.is_displayed()
         assert cancel_button.is_displayed()
 
-    @pytest.mark.skip
+    #@pytest.mark.skip
     def test_successful_order(self):
         driver = self.driver
         driver.get(var_info.url_login)

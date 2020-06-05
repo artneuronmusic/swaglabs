@@ -20,7 +20,7 @@ def pytest_addoption(parser):
 #@pytest.fixture(scope="session") #u use it when without class, and it will open browser once with all test
 
 
-@pytest.fixture
+@pytest.fixture(scope="class")
 def driver(request):
     #url = request.config.getoption("--baseurl")
     browser = request.config.getoption("--browser")
