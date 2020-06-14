@@ -75,19 +75,19 @@ class ClientInfoPage(BasePage):
 
     def continue_button(self):
 
-        try:
-            self._is_displayed(self._continue)
+        if self._is_displayed(self._continue):
             return self._find(self._continue)
 
-        except NoSuchElementException:
-            return False
+        else:
+            raise NoSuchElementException
+
 
     #will go back to page of https://www.saucedemo.com/cart.html
     def cancel_button(self):
 
         try:
             self._is_displayed(self._cancel)
-            self._click(self._cancel)
+            return self._find(self._cancel)
 
         except NoSuchElementException:
             return False

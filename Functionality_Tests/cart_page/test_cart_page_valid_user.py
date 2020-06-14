@@ -6,7 +6,7 @@ import datetime
 import allure
 
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 from Info import var_info
 from Pages.login_page import LoginPage
 from Pages.product_page import ProductPage
@@ -15,7 +15,8 @@ from Pages.product_individual_page import DetailsPage
 from Pages.general_page import GeneralPage
 from Utils import utils
 
-
+#one error will be found out in def test_reset_button
+#reset the app in cart page, however, only qty of cart gets done, the content
 
 @pytest.mark.usefixtures("driver")
 class TestCartPageWithoutProducts():
@@ -56,13 +57,6 @@ class TestCartPageWithoutProducts():
             self.driver.get_screenshot_as_file("/Users/yuchienhuang/Desktop/Swag_labs/Funtionality_Reports/cart_page/cart_page_screenshots/cart_page_valid_user/" + screenshotName + ".png")
 
             raise
-        except:
-            print("There is an exception")
-            raise
-
-        finally:
-            print("Done")
-
 
 
     #@pytest.mark.skip
@@ -70,7 +64,9 @@ class TestCartPageWithoutProducts():
     def test_no_product_no_checkout_page(self):
         try:
             driver = self.driver
-            driver.get(var_info.url_product)
+            driver.get(var_info.url_login)
+            login = LoginPage(driver)
+            login.enter_login_info(var_info.username_s, var_info.password_s)
             product = ProductPage(driver)
             general = GeneralPage(driver)
             general.cart_sign().click()
@@ -92,12 +88,6 @@ class TestCartPageWithoutProducts():
             self.driver.get_screenshot_as_file("/Users/yuchienhuang/Desktop/Swag_labs/Funtionality_Reports/cart_page/cart_page_screenshots/cart_page_valid_user/" + screenshotName + ".png")
 
             raise
-        except:
-            print("There is an exception")
-            raise
-
-        finally:
-            print("Done")
 
 
     #@pytest.mark.skip
@@ -105,7 +95,9 @@ class TestCartPageWithoutProducts():
     def test_no_product_continue_shopping(self):
         try:
             driver = self.driver
-            driver.get(var_info.url_product)
+            driver.get(var_info.url_login)
+            login = LoginPage(driver)
+            login.enter_login_info(var_info.username_s, var_info.password_s)
             product = ProductPage(driver)
             general = GeneralPage(driver)
             general.cart_sign().click()
@@ -128,12 +120,6 @@ class TestCartPageWithoutProducts():
             self.driver.get_screenshot_as_file("/Users/yuchienhuang/Desktop/Swag_labs/Funtionality_Reports/cart_page/cart_page_screenshots/cart_page_valid_user/" + screenshotName + ".png")
 
             raise
-        except:
-            print("There is an exception")
-            raise
-
-        finally:
-            print("Done")
 
 
 
@@ -147,7 +133,6 @@ class TestDisplay1():
             driver = self.driver
             driver.get(var_info.url_login)
             login = LoginPage(driver)
-
             # get account and password
             login.enter_login_info(var_info.username_s, var_info.password_s)
             product = ProductPage(driver)
@@ -176,12 +161,6 @@ class TestDisplay1():
             self.driver.get_screenshot_as_file("/Users/yuchienhuang/Desktop/Swag_labs/Funtionality_Reports/cart_page/cart_page_screenshots/cart_page_valid_user/" + screenshotName + ".png")
 
             raise
-        except:
-            print("There is an exception")
-            raise
-
-        finally:
-            print("Done")
 
 
 @pytest.mark.usefixtures("driver")
@@ -194,7 +173,6 @@ class TestDisplay2():
             driver = self.driver
             driver.get(var_info.url_login)
             login = LoginPage(driver)
-
             # get account and password
             login.enter_login_info(var_info.username_s, var_info.password_s)
             driver = self.driver
@@ -223,12 +201,6 @@ class TestDisplay2():
             self.driver.get_screenshot_as_file("/Users/yuchienhuang/Desktop/Swag_labs/Funtionality_Reports/cart_page/cart_page_screenshots/cart_page_valid_user/" + screenshotName + ".png")
 
             raise
-        except:
-            print("There is an exception")
-            raise
-
-        finally:
-            print("Done")
 
 
 
@@ -238,7 +210,9 @@ class TestDisplay3():
     def test_remove_checkout(self):
         try:
             driver = self.driver
-            driver.get(var_info.url_product)
+            driver.get(var_info.url_login)
+            login = LoginPage(driver)
+            login.enter_login_info(var_info.username_s, var_info.password_s)
             product = ProductPage(driver)
             product.click_add_to_cart(2)
             product.click_add_to_cart(6)
@@ -265,12 +239,6 @@ class TestDisplay3():
             self.driver.get_screenshot_as_file("/Users/yuchienhuang/Desktop/Swag_labs/Funtionality_Reports/cart_page/cart_page_screenshots/cart_page_valid_user/" + screenshotName + ".png")
 
             raise
-        except:
-            print("There is an exception")
-            raise
-
-        finally:
-            print("Done")
 
 
 
@@ -282,7 +250,9 @@ class TestDisplay4():
 
         try:
             driver = self.driver
-            driver.get(var_info.url_product)
+            driver.get(var_info.url_login)
+            login = LoginPage(driver)
+            login.enter_login_info(var_info.username_s, var_info.password_s)
             product = ProductPage(driver)
             product.click_add_to_cart(2)
             product.click_add_to_cart(6)
@@ -291,13 +261,15 @@ class TestDisplay4():
             cart = CartPage(driver)
             shopping_button = cart.cart_continue_shopping()
             shopping_button.click()
-
-            assert driver.current_url == "https://www.saucedemo.com/inventory.html"
             pro2 = product.product_add_to_cart(2)
             pro6 = product.product_add_to_cart(6)
+            general = GeneralPage(driver)
+            qty = general.cart_qty()
 
             assert pro2.text == "REMOVE"
             assert pro6.text == "REMOVE"
+            assert driver.current_url == "https://www.saucedemo.com/inventory.html"
+            assert qty.text == "2"
 
         except AssertionError as error:
             print("AssertionError occurred")
@@ -311,12 +283,6 @@ class TestDisplay4():
             self.driver.get_screenshot_as_file("/Users/yuchienhuang/Desktop/Swag_labs/Funtionality_Reports/cart_page/cart_page_screenshots/cart_page_valid_user/" + screenshotName + ".png")
 
             raise
-        except:
-            print("There is an exception")
-            raise
-
-        finally:
-            print("Done")
 
 
 
@@ -328,7 +294,9 @@ class TestDisplay5():
     def test_reset_button(self):
         try:
             driver = self.driver
-            driver.get(var_info.url_product)
+            driver.get(var_info.url_login)
+            login = LoginPage(driver)
+            login.enter_login_info(var_info.username_s, var_info.password_s)
             product = ProductPage(driver)
             product.click_add_to_cart(2)
             product.click_add_to_cart(6)
@@ -342,7 +310,7 @@ class TestDisplay5():
             items_display = cart.total_product_in_cart()
 
             assert qty == None
-            assert items_display == None
+            assert items_display == None #it should has nothing after hitting reset
 
 
         except AssertionError as error:
@@ -357,14 +325,6 @@ class TestDisplay5():
             self.driver.get_screenshot_as_file("/Users/yuchienhuang/Desktop/Swag_labs/Funtionality_Reports/cart_page/cart_page_screenshots/cart_page_valid_user/" + screenshotName + ".png")
 
             raise
-        except:
-            print("There is an exception")
-            raise
-
-        finally:
-            print("Done")
-
-
 
 
 @pytest.mark.usefixtures("driver")
@@ -375,7 +335,9 @@ class TestIndividualPageToCart():
     def test_individual_page_to_cart(self):
         try:
             driver = self.driver
-            driver.get(var_info.url_product)
+            driver.get(var_info.url_login)
+            login = LoginPage(driver)
+            login.enter_login_info(var_info.username_s, var_info.password_s)
             product = ProductPage(driver)
             product.click_product_label(4)
             general = GeneralPage(driver)
@@ -402,12 +364,8 @@ class TestIndividualPageToCart():
             self.driver.get_screenshot_as_file("/Users/yuchienhuang/Desktop/Swag_labs/Funtionality_Reports/cart_page/cart_page_screenshots/cart_page_valid_user/" + screenshotName + ".png")
 
             raise
-        except:
-            print("There is an exception")
-            raise
 
-        finally:
-            print("Done")
+
 
 
 

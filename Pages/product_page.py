@@ -13,17 +13,8 @@ import time
 class ProductPage(BasePage):
     #the same as _after_login
     _product_logo = {"by": By.XPATH, "value": "//div[@class='product_label']"}
-    _drop_down = {"by": By.XPATH, "value": "//button[contains(text(), 'Open Menu')]"}
     #_item_section = {"by": By.XPATH, "value": "//nav[@class='bm-item-list']"}
     #_all_items = {"by": By.XPATH, "value": "//nav[@class='bm-item-list']//a[@class='bm-item menu-item']"}
-    _all_items = {"by": By.CLASS_NAME, "value": "bm-item"}
-    _all_products = {"by": By.CLASS_NAME, "value": "inventory_item"}
-    _reset_app_state = {"by": By.XPATH, "value": "//a[@id='reset_sidebar_link']"}
-    _delete_button = {"by": By.XPATH, "value": "//button[contains(text(),'Close Menu')]"}
-
-
-    _cart_sign = {"by": By.XPATH, "value": "//*[name()='path' and contains( @ fill, 'currentCol')]"}
-    _cart_qty = {"by": By.XPATH, "value": "//span[@class='fa-layers-counter shopping_cart_badge']"}
     _product_list = {"by": By.CLASS_NAME, "value": "inventory_list"}
     _product_section = {"by": By.CLASS_NAME, "value": "inventory_item"}
     _product_img = {"by": By.XPATH, "value": "//img[@class='inventory_item_img']"}
@@ -33,58 +24,12 @@ class ProductPage(BasePage):
     _product_add_to_cart = {"by": By.CLASS_NAME, "value": "btn_inventory"}
     _goods_display_order = {"by": By.XPATH, "value": "//select[@class='product_sort_container']"}
 
-    _back_button = {"by": By.XPATH, "value": "//button[@class='inventory_details_back_button']"}
 
     #product logo
     def product_logo(self):
 
-        return self._is_displayed(self._product_logo)
+        return self._find(self._product_logo)
 
-
-    def selection_menu(self):
-        self._click(self._drop_down)
-
-        #without using sleep to pause script, but wait unitl the last option show
-        self._wait_for_display(self._reset_app_state, 5)
-
-        items = self.driver.find_elements(self._all_items["by"], self._all_items["value"])
-
-        item_list = []
-        for i in items:
-            if i.is_displayed():
-
-                item_list.append(i.text)
-
-        return item_list
-
-    def drop_down_menu(self):
-        self._click(self._drop_down)
-
-
-    #menu items: delete button
-    def delete_button_menu(self):
-        #self._click(self._drop_down)
-        self._wait_for_click(self._all_items, 5)
-        self._click(self._delete_button)
-        section = self._wait_for_not_display(self._all_items, 3)
-
-        return section
-
-    #menu items: pick one out of menu bar
-    def pick_item_from_menu(self, name):
-        self._click(self._drop_down)
-        self._wait_for_click(self._all_items, 5)
-        items = self.driver.find_elements(self._all_items["by"], self._all_items["value"])
-        #self._wait_for_click(self._all_items, 5)
-
-        for i in items:
-            try:
-                if i.text != name:
-                    continue
-                else:
-                    i.click()
-            except StaleElementReferenceException:
-                print("StaleElementReferenceException")
 
     def pick_display_order(self, input_info):
 
@@ -92,35 +37,30 @@ class ProductPage(BasePage):
         try:
             if isinstance(input_info, int):
                  pick_position.select_by_index(input_info - 1)
+
             else:
                  pick_position.select_by_visible_text(input_info)
 
-        except ValueError:
-            print("Check other element, sth like value of the element")
 
-
-    def name_display_order(self):
-        position = WebDriverSelect(self._find(self._goods_display_order))
-        display_name = position.first_selected_option.text
-
-        return display_name
-
-
-    def cart_sign(self):
-
-            return self._find(self._cart_sign)
+        except Error:
+            raise Error
 
 
 
-    #the cart_amount
-    def cart_qty(self):
-        if self._is_displayed(self._cart_qty):
-            qty = self._find(self._cart_qty)
-            return qty
+    #u need to specify the default name
+    def default_name_order(self):
+
+        try:
+            position = WebDriverSelect(self._find(self._goods_display_order))
+            display_name = position.first_selected_option
+
+        except Error:
+            raise
 
         else:
-            return None
+            return display_name
 
+    #the whole labels
     def product_labels(self):
         p_label = self._find_elements(self._product_label)
         label_list = []
@@ -131,12 +71,12 @@ class ProductPage(BasePage):
                 label_list.append(new_list)
 
             except AssertionError:
-
-                raise ("Some labels are missing")
+                print ("Some labels are missing")
+                raise
 
         return label_list
 
-
+    #single one, and u can assign
     def product_label(self, info):
         p_desc = self._find_elements(self._product_label)
         if isinstance(info, int):
@@ -154,7 +94,7 @@ class ProductPage(BasePage):
         else:
             raise Error("Please check type of info")
 
-
+    #whole price
     #price_product_price
     def products_price(self):
         ps_price = self._find_elements(self._product_price)
@@ -173,7 +113,7 @@ class ProductPage(BasePage):
         #print(price_list)
 
 
-
+    #single price
     def product_price(self, info):
         p_price = self._find_elements(self._product_price)
         if isinstance(info, int):
@@ -192,6 +132,7 @@ class ProductPage(BasePage):
             raise Error("Please check type of info")
 
 
+    #the whole descriptions
     def products_description(self):
         p_desc = self._find_elements(self._product_description)
         desc_list = []
@@ -207,6 +148,7 @@ class ProductPage(BasePage):
 
         return desc_list
 
+    #single description
     def product_description(self, info):
         p_desc = self._find_elements(self._product_description)
         if isinstance(info, int):
@@ -224,26 +166,30 @@ class ProductPage(BasePage):
         else:
             raise Error("Please check type of info")
 
+
+    #does specific product has "add to cart" displayed
     def product_add_to_cart(self, info):
         p_cart = self._find_elements(self._product_add_to_cart)
         if isinstance(info, int):
             info = int(info) - 1
             return p_cart[info]
 
-        elif isinstance(info, str):
-            for i in p_cart:
-                if i.text == info:
-                    return p_cart[i]
-
-                else:
-                    continue
-
         else:
             raise Error("Please check type of info")
 
+    def add_to_cart_label(self, info):
+        p_add_to_cart = self._find_elements(self._product_add_to_cart)
+        new_info = int(info) - 1
 
+        try:
+            p_add_to_cart[new_info].is_displayed()
+            return p_add_to_cart[new_info]
 
-    def product_add_to_cart_label(self):
+        except (IndexError, ValueError, TypeError):
+
+            raise ("Sth wrong")
+
+    def products_add_to_cart_label(self):
         a_cart_labels = self._find_elements(self._product_add_to_cart)
         appear = False
         for i in a_cart_labels:
@@ -251,11 +197,10 @@ class ProductPage(BasePage):
                 i.is_displayed()
                 appear = True
 
-            except ValueError:
+            except AssertionError:
                 raise ("Description(s) missing")
 
         return appear
-
 
 
     def click_add_to_cart(self, info):
@@ -266,7 +211,7 @@ class ProductPage(BasePage):
 
             p_add_to_cart[new_info].click()
             if p_add_to_cart[new_info].is_displayed():
-                return p_add_to_cart[new_info].text
+                return p_add_to_cart[new_info]
 
         except (IndexError, ValueError, TypeError):
 
@@ -295,39 +240,45 @@ class ProductPage(BasePage):
 
     def products_img(self):
         product_labels = self._find_elements(self._product_img)
-
+        k=0
         for i in product_labels:
-            try:
-                i.is_displayed()
-                img = i.get_attribute('src')
-                if img.endswith(".jpg"):
-
-                    return True
-
-            except Exception:
-
-                raise ("{} does not upload img properly".format(i + 1))
-
-
-
-
-
-    def click_products_img(self, num):
-        imgs = self._find_elements(self._product_img)
-
-        try:
-            self.products_img()
-
-            new = imgs[num].get_attribute("src")
-            print(new)
-            if new.endswith(".jpg"):
-                imgs[num].click()
+            k += 1
+            img = i.get_attribute('src')
+            if img.endswith(".jpg"):
+                return True
 
             else:
-                raise Error("no imgs")
+                return False
 
-        except AssertionError:
-            raise("No img")
+
+    def specific_product_img(self, num):
+        imgs = self._find_elements(self._product_img)
+        num = num - 1
+        new = imgs[num].get_attribute("src")
+        print(new)
+        try:
+            if new.endswith(".jpg"):
+                return imgs[num].is_displayed()
+
+        except Error:
+            raise Error("the img does not have jpg format")
+
+    def click_product_img(self, num):
+        imgs = self._find_elements(self._product_img)
+        num = num - 1
+        new = imgs[num].get_attribute("src")
+        print(new)
+
+        if new.endswith(".jpg"):
+            return imgs[num].click()
+        else:
+            print("The img is not normal")
+            quit()
+
+        #except Error:
+         #   raise Error("the img does not have jpg format")
+
+
         # product_labels = self._find_elements(self._product_img)
         #
         # try:

@@ -3,17 +3,16 @@ import os.path
 import sys
 import time
 import datetime
-from Utils import utils
+
 import allure
-
-
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 from Info import var_info
 from Pages.login_page import LoginPage
 from Pages.product_page import ProductPage
 from Pages.product_individual_page import DetailsPage
 from Pages.general_page import GeneralPage
 from Utils import utils
+
 
 #@pytest.mark.usefixtures("test_setup")
 @pytest.mark.usefixtures("driver")
@@ -36,9 +35,10 @@ class TestLoginOut():
             product = ProductPage(driver)
             general = GeneralPage(driver)
             #pick the option: "Logout"
+            general.drop_down_menu()
             general.pick_item_from_menu("Logout")
 
-            assert driver.current_url != "https://www.saucedemo.com/"
+
             assert driver.current_url == "https://www.saucedemo.com/index.html"
 
         except AssertionError as error:
@@ -77,9 +77,10 @@ class TestLoginOut():
 
             #pick the option: "Logout"
             general = GeneralPage(driver)
+            general.drop_down_menu()
             general.pick_item_from_menu("Logout")
 
-            assert driver.current_url != "https://www.saucedemo.com/"
+
             assert driver.current_url == "https://www.saucedemo.com/index.html"
 
         except AssertionError as error:
@@ -116,6 +117,7 @@ class TestLoginOut():
             product = ProductPage(driver)
             general = GeneralPage(driver)
             #pick the option: "Logout"
+            general.drop_down_menu()
             general.pick_item_from_menu("Logout")
 
             assert driver.current_url != "https://www.saucedemo.com/"

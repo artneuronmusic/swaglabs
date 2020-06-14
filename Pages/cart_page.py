@@ -8,12 +8,8 @@ from selenium.webdriver.support.select import Select as WebDriverSelect
 import time
 
 class CartPage(BasePage):
-
-
-
     #cart.html
-    _cart_sign = {"by": By.XPATH, "value": "//*[name()='path' and contains( @ fill, 'currentCol')]"}
-    _cart_qty = {"by": By.XPATH, "value": "//span[@class='fa-layers-counter shopping_cart_badge']"}
+
     _cart_title = {"by": By.XPATH, "value": "//div[@class='subheader']"}
     _cart_qty_label = {"by": By.XPATH, "value": "//div[@class='cart_quantity_label']"}
     _cart_desc_label = {"by": By.XPATH, "value": "//div[@class='cart_desc_label']"}
@@ -133,20 +129,6 @@ class CartPage(BasePage):
         all_items = self._find_elements(self._items_total)
         if all_items:
             return len(all_items)
-
-        else:
-            return None
-
-    def cart_sign(self):
-
-        return self._find(self._cart_sign)
-
-        # the cart_amount
-
-    def cart_qty(self):
-        if self._is_displayed(self._cart_qty):
-            qty = self._find(self._cart_qty)
-            return qty
 
         else:
             return None

@@ -87,49 +87,40 @@ class CheckoutOverview(BasePage):
 
 
     def overview_finish(self):
-        result = ""
-        try:
-            self._is_displayed(self._overview_finish)
-            result = self._find(self._overview_finish)
 
-        except NoSuchElementException:
-            result = False
+        if self._is_displayed(self._overview_finish):
 
-        return result
+            return self._find(self._overview_finish)
+
+        else:
+            return None
 
 
     def overview_cancel(self):
-        result = ""
-        try:
-            self._is_displayed(self._overview_cancel)
-            result = self._find(self._overview_cancel)
 
+        if self._is_displayed(self._overview_cancel):
+            return self._find(self._overview_cancel)
 
-        except NoSuchElementException:
-            return False
-
-        return result
-
+        else:
+            return None
 
     def successfully_placed_order(self):
-        result = ""
-        try:
-            self._is_displayed(self._thank_order)
-            result = self._find(self._thank_order)
 
+        if self._is_displayed(self._thank_order):
 
-        except NoSuchElementException:
-            result = False
+            return True
 
-        return result
+        else:
+            return None
+
 
 
     def successfully_img(self):
         result = ""
         try:
 
-            img = self._is_displayed(self._thank_img)
-            result = img
+            self._is_displayed(self._thank_img)
+            result = True
 
         except NoSuchElementException:
             result = False
@@ -140,5 +131,9 @@ class CheckoutOverview(BasePage):
     def total_item(self):
         all_items = self._find_elements(self._items_total)
         return len(all_items)
+
+
+
+
 
 

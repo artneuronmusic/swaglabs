@@ -7,7 +7,7 @@ import datetime
 
 
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..'))
 from Info import var_info
 
 from Pages.login_page import LoginPage
@@ -83,12 +83,6 @@ class TestOverview1():
                 "/Users/yuchienhuang/Desktop/Swag_labs/Funtionality_Reports/checkout_overview/checkout_overview_screenshots/checkout_overview_valid_user/" + screenshotName + ".png")
 
             raise
-        except:
-            print("There is an exception")
-            raise
-
-        finally:
-            print("Done")
 
 @pytest.mark.usefixtures("driver")
 class TestOverview2():
@@ -151,12 +145,7 @@ class TestOverview2():
                 "/Users/yuchienhuang/Desktop/Swag_labs/Funtionality_Reports/checkout_overview/checkout_overview_screenshots/checkout_overview_valid_user/" + screenshotName + ".png")
 
             raise
-        except:
-            print("There is an exception")
-            raise
 
-        finally:
-            print("Done")
 
 @pytest.mark.usefixtures("driver")
 class TestOverview3():
@@ -199,7 +188,7 @@ class TestOverview3():
 
 
             assert successful_order.is_displayed()
-            assert successful_order.text == "THANK YOU FOR YOUR ORDER"
+            assert successful_order == True
             assert successful_img == True
             assert final_cart_qty == None
             assert driver.current_url == "https://www.saucedemo.com/checkout-complete.html"
@@ -278,12 +267,6 @@ class TestOverview4():
                 "/Users/yuchienhuang/Desktop/Swag_labs/Funtionality_Reports/checkout_overview/checkout_overview_screenshots/checkout_overview_valid_user/" + screenshotName + ".png")
 
             raise
-        except:
-            print("There is an exception")
-            raise
-
-        finally:
-            print("Done")
 
 
 
@@ -341,17 +324,5 @@ class TestOverview5():
                 "/Users/yuchienhuang/Desktop/Swag_labs/Funtionality_Reports/checkout_overview/checkout_overview_screenshots/checkout_overview_valid_user/" + screenshotName + ".png")
 
             raise
-        except:
-            print("There is an exception")
-            raise
-
-        finally:
-            print("Done")
-
-
-
-
-
-
 
 
